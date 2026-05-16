@@ -24,15 +24,20 @@ export default function DailyLog() {
     } catch (e) { console.error(e); }
   }, []);
 
-  useEffect(() => { loadMeals(); }, [loadMeals]);
-
-  // 10-second silence prompt
   useEffect(() => {
-    silenceTimer.current = setTimeout(() => {
+  // Don't prompt if AI is currently processing
+  if (processingId) return;
+  
+  silenceTimer.current = setTimeout(() => {
+    // Only speak if speechSynthesis is not already speaking
+    if (!window.speechSynthesis.speaking) {
       speak(t.askAgain, lang);
-    }, 10000);
-    return () => clearTimeout(silenceTimer.current);
-  }, [meals, lang, t.askAgain]);
+    }
+  }, 30000000); // increased to 30 seconds
+
+  return () => clearTimeout(silenceTimer.current);
+}, [meals, lang, t.askAgain, processingId]);
+  
 
   function resetSilenceTimer() {
     clearTimeout(silenceTimer.current);
