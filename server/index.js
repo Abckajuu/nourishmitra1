@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const db = require("./db/database");
 
 const OLLAMA_URL = process.env.OLLAMA_URL || "https://construct-wimp-perfectly.ngrok-free.dev";
