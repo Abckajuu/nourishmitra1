@@ -1,5 +1,16 @@
 const express = require("express");
-const cors = require("cors");
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://nourishmitra-com.vercel.app",
+    /\.vercel\.app$/
+  ],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// Handle preflight requests
+app.options("*", cors());
 const db = require("./db/database");
 
 const OLLAMA_URL = process.env.OLLAMA_URL || "https://construct-wimp-perfectly.ngrok-free.dev";
