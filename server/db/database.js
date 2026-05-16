@@ -1,10 +1,16 @@
 const Database = require("better-sqlite3");
 const path = require("path");
+const fs = require("fs");
+
+// Ensure the db directory exists
+const dbDir = path.dirname(process.env.DB_PATH || path.join(__dirname, "nourishmitra.db"));
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
 
 const db = new Database(
   process.env.DB_PATH || path.join(__dirname, "nourishmitra.db")
 );
-
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
