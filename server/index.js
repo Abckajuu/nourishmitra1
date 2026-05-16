@@ -1,4 +1,12 @@
 const express = require("express");
+const db = require("./db/database");
+
+const OLLAMA_URL = process.env.OLLAMA_URL || "https://construct-wimp-perfectly.ngrok-free.dev";
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gemma4:e2b";
+
+const app = express();
+app.use(express.json());
+
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -11,14 +19,6 @@ app.use(cors({
 
 // Handle preflight requests
 app.options("*", cors());
-const db = require("./db/database");
-
-const OLLAMA_URL = process.env.OLLAMA_URL || "https://construct-wimp-perfectly.ngrok-free.dev";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "gemma4:e2b";
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 // Ensure database initialization side-effects run on server boot.
 void db;
